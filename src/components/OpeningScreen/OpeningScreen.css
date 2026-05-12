@@ -1,0 +1,99 @@
+.opening {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--color-navy-deep);
+  overflow: hidden;
+}
+
+.opening__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.opening__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation-name: openingFrameIn;
+  animation-timing-function: var(--ease-soft);
+  animation-fill-mode: forwards;
+  animation-delay: 0ms;
+  animation-duration: 600ms;
+  will-change: opacity;
+}
+
+@keyframes openingFrameIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.opening__cta {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(2.5rem, 12vh, 7rem);
+  transform: translate(-50%, 10px);
+  opacity: 0;
+  transition:
+    opacity 700ms var(--ease-soft),
+    transform 700ms var(--ease-emphatic);
+  z-index: 2;
+}
+
+.opening__cta.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.opening__start {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.95rem 2.6rem;
+  color: var(--color-cream);
+  background: rgba(13, 20, 36, 0.55);
+  border: 1px solid var(--color-cream);
+  border-radius: 2px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition:
+    background 240ms var(--ease-soft),
+    color 240ms var(--ease-soft),
+    border-color 240ms var(--ease-soft),
+    transform 240ms var(--ease-soft);
+}
+
+.opening__start:hover:not(:disabled) {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-navy-deep);
+}
+
+.opening__start:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.opening__start:disabled {
+  cursor: default;
+}
+
+.opening__start:focus-visible {
+  outline: 2px solid var(--color-gold-bright);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening__frame {
+    animation: none;
+    opacity: 1;
+  }
+  .opening__cta {
+    transition: none;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

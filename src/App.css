@@ -1,12 +1,1 @@
-.app {
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-  padding: 2rem;
-}
-
-.placeholder {
-  font-size: 1rem;
-  letter-spacing: 0.05em;
-  opacity: 0.7;
-}
+/* Top-level layout entry point — most styling lives in component CSS. */

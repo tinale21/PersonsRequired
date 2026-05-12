@@ -1,0 +1,82 @@
+.tabbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+  z-index: 2;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: rgba(243, 241, 234, 0.85);
+  background: transparent;
+  padding: 1.1rem 2.2rem 1.1rem 1.6rem;
+  height: 56px;
+  transition: color 220ms var(--ease-soft);
+  white-space: nowrap;
+}
+
+.tab:hover:not(.tab--active) {
+  color: var(--color-cream);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-gold-bright);
+  outline-offset: -2px;
+}
+
+.tab--method {
+  padding-right: 3rem;
+}
+
+.tab--storage {
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+}
+
+.tab--active {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  /* angled trailing edge for the leftmost active tab */
+}
+
+.tab--method.tab--active {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+  padding-right: 3.2rem;
+}
+
+.tab--storage.tab--active {
+  clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 3.2rem;
+}
+
+@media (max-width: 720px) {
+  .tabbar {
+    padding: 0 0.6rem;
+  }
+  .tab {
+    padding: 0.9rem 1.2rem;
+    height: 48px;
+    font-size: 0.85rem;
+  }
+  .tab--method.tab--active,
+  .tab--storage.tab--active {
+    clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+    padding-right: 2rem;
+  }
+  .tab--storage.tab--active {
+    clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%);
+    padding-left: 2rem;
+    padding-right: 1.2rem;
+  }
+}
