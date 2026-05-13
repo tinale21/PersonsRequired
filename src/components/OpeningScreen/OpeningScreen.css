@@ -1,76 +1,326 @@
+/* ----------------------------------------------------
+ * Opening Screen — layered composition matching the
+ * Figma reference. Decorative elements are positioned
+ * inside a constrained layout wrapper so they cluster
+ * around the title block on wide screens instead of
+ * fleeing to the viewport corners.
+ * --------------------------------------------------- */
+
 .opening {
   position: relative;
   width: 100%;
   height: 100vh;
+  min-height: 640px;
   background: var(--color-navy-deep);
   overflow: hidden;
+  isolation: isolate;
 }
 
-.opening__stage {
+/* ---------- Skyline base ---------- */
+.opening__sky {
   position: absolute;
   inset: 0;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 1400ms var(--ease-soft),
+    transform 1800ms var(--ease-soft);
 }
 
-.opening__frame {
+.opening__sky.is-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.opening__sky-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  animation-name: openingFrameIn;
-  animation-timing-function: var(--ease-soft);
-  animation-fill-mode: forwards;
-  animation-delay: 0ms;
-  animation-duration: 600ms;
-  will-change: opacity;
+  object-position: center 40%;
 }
 
-@keyframes openingFrameIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.opening__cta {
+.opening__sky-veil {
   position: absolute;
-  left: 50%;
-  bottom: clamp(2.5rem, 12vh, 7rem);
-  transform: translate(-50%, 10px);
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(13, 20, 36, 0.115) 0%, rgba(13, 20, 36, 0.575) 60%, rgba(13, 20, 36, 0.9) 100%),
+    linear-gradient(180deg, rgba(13, 20, 36, 0.63) 0%, rgba(13, 20, 36, 0.46) 45%, rgba(13, 20, 36, 0.86) 100%);
+}
+
+/* ---------- Constrained layout wrapper ---------- */
+.opening__layout {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ---------- Decorative elements ---------- */
+.opening__airplane,
+.opening__seal,
+.opening__bulldog,
+.opening__tickets {
+  position: absolute;
+  pointer-events: none;
   opacity: 0;
   transition:
-    opacity 700ms var(--ease-soft),
-    transform 700ms var(--ease-emphatic);
+    opacity 900ms var(--ease-soft),
+    transform 1100ms var(--ease-emphatic);
+}
+
+/* Airplane — upper left, in front of the title cluster */
+.opening__airplane {
+  top: 17%;
+  left: 7%;
+  width: clamp(144px, 15.2%, 256px);
+  transform: translate(-22px, -14px) rotate(-7deg);
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+}
+.opening__airplane.is-in {
+  opacity: 1;
+  transform: translate(0, 0) rotate(-3deg);
+  animation: airplaneFloat 9s ease-in-out 1.6s infinite alternate;
+}
+@keyframes airplaneFloat {
+  from { transform: translate(0, 0) rotate(-3deg); }
+  to   { transform: translate(10px, -8px) rotate(-1deg); }
+}
+
+/* Seal — upper right (above the bulldog), gold */
+.opening__seal {
+  top: 16%;
+  right: 9%;
+  width: clamp(101px, 10.1%, 161px);
+  transform: scale(0.85) rotate(-8deg);
+  filter: drop-shadow(0 4px 14px rgba(200, 165, 114, 0.35));
+}
+.opening__seal.is-in {
+  opacity: 0.97;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Bulldog shield — right side, mid-height. Pale white asset
+   reads as a faded watermark on the dark veil. */
+.opening__bulldog {
+  top: 44%;
+  right: 9.5%;
+  width: clamp(145px, 15.2%, 239px);
+  transform: translateY(10px);
+  opacity: 0;
+  filter: drop-shadow(0 3px 10px rgba(255, 255, 255, 0.05));
+}
+.opening__bulldog.is-in {
+  opacity: 0.5;
+  transform: translateY(0);
+}
+
+/* Tickets — left of center, below the title block */
+.opening__tickets {
+  top: 56%;
+  left: 8%;
+  width: clamp(190px, 20%, 360px);
+  transform: translateY(20px) rotate(-3deg);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+}
+.opening__tickets.is-in {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+@media (max-width: 900px) {
+  .opening__airplane { top: 8%; left: 4%; width: clamp(88px, 17.6vw, 136px); }
+  .opening__seal { top: 8%; right: 4%; width: clamp(74px, 15.6vw, 120px); }
+  .opening__bulldog { top: 62%; right: 4%; width: clamp(116px, 29vw, 189px); }
+  .opening__bulldog.is-in { opacity: 0.4; }
+  .opening__tickets {
+    top: auto;
+    bottom: 22%;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px) rotate(-2deg);
+    width: clamp(200px, 65vw, 320px);
+  }
+  .opening__tickets.is-in {
+    transform: translateX(-50%) translateY(0) rotate(-1deg);
+  }
+}
+
+/* ---------- Centered text stack ---------- */
+.opening__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+  transform: translateY(-3%);
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Title block */
+.opening__title {
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 1100ms var(--ease-soft),
+    transform 1200ms var(--ease-emphatic);
+}
+.opening__title.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MOVE/BOOK stack — sized to content, position relative
+   anchors "The" so it sits at the top-left corner of MOVE
+   without colliding with it. */
+.opening__title-main {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.92;
+}
+
+.opening__title-the {
+  position: absolute;
+  /* Bottom of "The" box sits 3px above the top of "MOVE". */
+  top: calc(-1em - 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-cursive);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  background: linear-gradient(180deg, #f1d597 0%, #d9b87f 40%, #b89055 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
   z-index: 2;
 }
 
-.opening__cta.is-visible {
+.opening__title-line {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.05rem, 5.2vw, 4.5rem);
+  letter-spacing: 0.045em;
+  background: linear-gradient(180deg, #f6d896 0%, #e6c07a 35%, #c8a572 55%, #a07a3f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.22);
+}
+
+/* Route */
+.opening__route {
+  margin-top: calc(1.8rem - 1px);
+  text-align: center;
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2.3vw, 1.85rem);
+  letter-spacing: 0.05em;
+  background: linear-gradient(180deg, #e0b87f, #b89055);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 900ms var(--ease-soft),
+    transform 900ms var(--ease-emphatic);
+}
+.opening__route.is-in {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
+}
+.opening__arrow {
+  display: inline-block;
+  margin: 0 0.4em;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Subtitle */
+.opening__subtitle {
+  margin-top: calc(1rem + 11px);
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.27vw, 1.15rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--color-cream);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 800ms var(--ease-soft),
+    transform 800ms var(--ease-emphatic);
+  text-shadow: 0 1px 6px rgba(13, 20, 36, 0.4);
+}
+.opening__subtitle.is-in {
+  opacity: 0.94;
+  transform: translateY(0);
+}
+
+/* ---------- Start button ---------- */
+.opening__cta {
+  margin-top: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 800ms var(--ease-soft),
+    transform 800ms var(--ease-emphatic);
+  z-index: 3;
+  pointer-events: auto;
+}
+.opening__cta.is-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .opening__start {
   font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 0.95rem 2.6rem;
+  letter-spacing: 0.08em;
+  padding: 0.7rem 2.8rem;
   color: var(--color-cream);
-  background: rgba(13, 20, 36, 0.55);
-  border: 1px solid var(--color-cream);
-  border-radius: 2px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(13, 20, 36, 0.4);
+  border: 1px solid rgba(243, 241, 234, 0.85);
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition:
     background 240ms var(--ease-soft),
     color 240ms var(--ease-soft),
     border-color 240ms var(--ease-soft),
-    transform 240ms var(--ease-soft);
+    transform 240ms var(--ease-soft),
+    box-shadow 240ms var(--ease-soft);
 }
 
 .opening__start:hover:not(:disabled) {
-  background: var(--color-gold);
-  border-color: var(--color-gold);
+  background: linear-gradient(180deg, #e6c07a, #c8a572);
+  border-color: #d9b87f;
   color: var(--color-navy-deep);
+  box-shadow: 0 4px 24px -8px rgba(216, 178, 117, 0.6);
 }
 
 .opening__start:active:not(:disabled) {
@@ -87,13 +337,24 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .opening__frame {
-    animation: none;
-    opacity: 1;
-  }
+  .opening__sky,
+  .opening__airplane,
+  .opening__seal,
+  .opening__bulldog,
+  .opening__tickets,
+  .opening__title,
+  .opening__route,
+  .opening__subtitle,
   .opening__cta {
     transition: none;
+    animation: none;
     opacity: 1;
-    transform: translate(-50%, 0);
+    transform: none;
   }
+  .opening__bulldog { opacity: 0.5; }
+  .opening__seal { opacity: 0.97; }
+  .opening__subtitle { opacity: 0.94; }
+  .opening__cta { transform: translateY(0); }
+  .opening__title { transform: none; }
+  .opening__center { transform: translateY(-3%); }
 }

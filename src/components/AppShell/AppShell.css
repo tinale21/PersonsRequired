@@ -8,7 +8,7 @@
 .shell__header {
   position: relative;
   height: 96px;
-  background-image: url('/opening/01-skyline.jpg');
+  background-image: url('/opening/skyline.jpg');
   background-size: cover;
   background-position: center 55%;
 }
