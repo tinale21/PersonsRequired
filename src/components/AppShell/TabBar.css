@@ -50,14 +50,12 @@
   /* angled trailing edge for the leftmost active tab */
 }
 
-.tab--method.tab--active {
-  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
-  padding-right: 3.2rem;
-}
-
-.tab--storage.tab--active {
-  clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%);
-  padding-left: 3.2rem;
+/* Folder-tab shape: narrow top, sloped sides, wider bottom flush
+   with the body. Both active tabs share the shape. */
+.tab--active {
+  clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 100%, 0 100%);
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
 }
 
 @media (max-width: 720px) {
@@ -69,14 +67,9 @@
     height: 48px;
     font-size: 0.85rem;
   }
-  .tab--method.tab--active,
-  .tab--storage.tab--active {
-    clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
-    padding-right: 2rem;
-  }
-  .tab--storage.tab--active {
-    clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%);
-    padding-left: 2rem;
-    padding-right: 1.2rem;
+  .tab--active {
+    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%);
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
   }
 }

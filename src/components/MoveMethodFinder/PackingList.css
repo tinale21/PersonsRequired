@@ -116,17 +116,17 @@
   color: var(--color-muted);
 }
 
-/* Grid */
+/* Layout — CSS columns packs categories naturally so a short
+   category isn't forced to leave empty space below it to match the
+   height of a tall category in the same row. */
 .plist__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 2.5rem;
+  columns: 2;
+  column-gap: 2.5rem;
 }
 
 @media (max-width: 720px) {
   .plist__grid {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
+    columns: 1;
   }
   .plist__add {
     flex-direction: row;
@@ -140,6 +140,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.plist__group:last-child {
+  margin-bottom: 0;
 }
 
 .plist__group-title {

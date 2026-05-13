@@ -44,9 +44,7 @@
 .opening__sky-veil {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at center, rgba(13, 20, 36, 0.115) 0%, rgba(13, 20, 36, 0.575) 60%, rgba(13, 20, 36, 0.9) 100%),
-    linear-gradient(180deg, rgba(13, 20, 36, 0.63) 0%, rgba(13, 20, 36, 0.46) 45%, rgba(13, 20, 36, 0.86) 100%);
+  background: rgba(30, 44, 60, 0.9);
 }
 
 /* ---------- Constrained layout wrapper ---------- */
@@ -74,8 +72,8 @@
 /* Airplane — upper left, in front of the title cluster */
 .opening__airplane {
   top: 17%;
-  left: 7%;
-  width: clamp(144px, 15.2%, 256px);
+  left: calc(7% - 10px);
+  width: clamp(130px, 13.7%, 230px);
   transform: translate(-22px, -14px) rotate(-7deg);
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
 }
@@ -91,36 +89,36 @@
 
 /* Seal — upper right (above the bulldog), gold */
 .opening__seal {
-  top: 16%;
-  right: 9%;
+  top: calc(16% + 10px);
+  right: calc(9% + 5px);
   width: clamp(101px, 10.1%, 161px);
   transform: scale(0.85) rotate(-8deg);
   filter: drop-shadow(0 4px 14px rgba(200, 165, 114, 0.35));
 }
 .opening__seal.is-in {
-  opacity: 0.97;
+  opacity: 1;
   transform: scale(1) rotate(0deg);
 }
 
 /* Bulldog shield — right side, mid-height. Pale white asset
    reads as a faded watermark on the dark veil. */
 .opening__bulldog {
-  top: 44%;
-  right: 9.5%;
+  top: calc(44% + 120px);
+  right: calc(9.5% - 5px);
   width: clamp(145px, 15.2%, 239px);
   transform: translateY(10px);
   opacity: 0;
   filter: drop-shadow(0 3px 10px rgba(255, 255, 255, 0.05));
 }
 .opening__bulldog.is-in {
-  opacity: 0.5;
+  opacity: 0.85;
   transform: translateY(0);
 }
 
 /* Tickets — left of center, below the title block */
 .opening__tickets {
-  top: 56%;
-  left: 8%;
+  top: calc(56% + 5px);
+  left: calc(8% - 10px);
   width: clamp(190px, 20%, 360px);
   transform: translateY(20px) rotate(-3deg);
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
@@ -131,13 +129,13 @@
 }
 
 @media (max-width: 900px) {
-  .opening__airplane { top: 8%; left: 4%; width: clamp(88px, 17.6vw, 136px); }
-  .opening__seal { top: 8%; right: 4%; width: clamp(74px, 15.6vw, 120px); }
-  .opening__bulldog { top: 62%; right: 4%; width: clamp(116px, 29vw, 189px); }
-  .opening__bulldog.is-in { opacity: 0.4; }
+  .opening__airplane { top: 8%; left: calc(4% - 10px); width: clamp(79px, 15.8vw, 122px); }
+  .opening__seal { top: calc(8% + 10px); right: calc(4% + 5px); width: clamp(74px, 15.6vw, 120px); }
+  .opening__bulldog { top: calc(62% + 120px); right: calc(4% - 5px); width: clamp(116px, 29vw, 189px); }
+  .opening__bulldog.is-in { opacity: 0.85; }
   .opening__tickets {
     top: auto;
-    bottom: 22%;
+    bottom: calc(22% - 5px);
     left: 50%;
     transform: translateX(-50%) translateY(20px) rotate(-2deg);
     width: clamp(200px, 65vw, 320px);
@@ -156,7 +154,6 @@
   align-items: center;
   justify-content: center;
   padding: 4rem 1.5rem;
-  transform: translateY(-3%);
   pointer-events: none;
   text-align: center;
 }
@@ -351,10 +348,9 @@
     opacity: 1;
     transform: none;
   }
-  .opening__bulldog { opacity: 0.5; }
-  .opening__seal { opacity: 0.97; }
+  .opening__bulldog { opacity: 0.85; }
+  .opening__seal { opacity: 1; }
   .opening__subtitle { opacity: 0.94; }
   .opening__cta { transform: translateY(0); }
   .opening__title { transform: none; }
-  .opening__center { transform: translateY(-3%); }
 }
