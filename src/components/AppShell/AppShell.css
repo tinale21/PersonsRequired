@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--color-cream);
+  background: #f9f8f8;
 }
 
 .shell__header {
@@ -26,8 +26,46 @@
 
 .shell__body {
   flex: 1;
-  background: var(--color-cream);
+  background: #f9f8f8;
   position: relative;
+}
+
+/* Slide between the two tab panels.
+   - Both stay mounted (state is preserved across switches).
+   - CSS grid stacks them in the same cell.
+   - Inactive panels translate off-screen on their "natural" side:
+     method on the left, storage on the right. Active sits at 0.
+   - overflow:hidden clips the off-screen panel during the slide. */
+.shell__panels {
+  display: grid;
+  grid-template-areas: "stack";
+  overflow: hidden;
+}
+
+.shell__panel {
+  grid-area: stack;
+  pointer-events: none;
+  transition:
+    transform 460ms var(--ease-emphatic),
+    opacity 380ms var(--ease-soft);
+  will-change: transform, opacity;
+}
+
+.shell__panel--method {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.shell__panel--storage {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.shell__panels--method .shell__panel--method,
+.shell__panels--storage .shell__panel--storage {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 @media (max-width: 720px) {

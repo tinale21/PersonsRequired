@@ -21,7 +21,7 @@
   color: rgba(243, 241, 234, 0.85);
   background: transparent;
   padding: 1.1rem 2.2rem 1.1rem 1.6rem;
-  height: 56px;
+  height: 64px; /* slightly taller so the SVG shape has room for the tails */
   transition: color 220ms var(--ease-soft);
   white-space: nowrap;
 }
@@ -44,18 +44,39 @@
   padding-right: 1.6rem;
 }
 
-.tab--active {
-  background: var(--color-cream);
-  color: var(--color-ink);
-  /* angled trailing edge for the leftmost active tab */
+/* The folder-tab SVG lives on a pseudo-element so its opacity can
+   transition between tabs (the active-tab indicator fades from one
+   tab to the other instead of snapping). */
+.tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/tab-shape.svg') center / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms var(--ease-soft);
+  z-index: 0;
 }
 
-/* Folder-tab shape: narrow top, sloped sides, wider bottom flush
-   with the body. Both active tabs share the shape. */
+.tab--active::before {
+  opacity: 1;
+}
+
+.tab__label {
+  position: relative;
+  z-index: 1;
+}
+
 .tab--active {
-  clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 100%, 0 100%);
-  padding-left: 2.4rem;
-  padding-right: 2.4rem;
+  color: var(--color-ink);
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.tab--active .tab__label {
+  /* Shift label up slightly to center within the trapezoid (the tails
+     sit at the very bottom of the SVG). */
+  transform: translateY(-2px);
 }
 
 @media (max-width: 720px) {
@@ -64,11 +85,10 @@
   }
   .tab {
     padding: 0.9rem 1.2rem;
-    height: 48px;
+    height: 56px;
     font-size: 0.85rem;
   }
   .tab--active {
-    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 100%, 0 100%);
     padding-left: 1.8rem;
     padding-right: 1.8rem;
   }

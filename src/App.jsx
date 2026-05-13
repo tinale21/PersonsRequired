@@ -15,7 +15,14 @@ export default function App() {
 
   return (
     <AppShell activeTab={activeTab} onTabChange={setActiveTab}>
-      {activeTab === 'method' ? <MoveMethodFinder /> : <StorageOrganizer />}
+      <div className={`shell__panels shell__panels--${activeTab}`}>
+        <div className="shell__panel shell__panel--method" aria-hidden={activeTab !== 'method'}>
+          <MoveMethodFinder />
+        </div>
+        <div className="shell__panel shell__panel--storage" aria-hidden={activeTab !== 'storage'}>
+          <StorageOrganizer />
+        </div>
+      </div>
     </AppShell>
   )
 }

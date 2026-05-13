@@ -39,4 +39,11 @@ export const questions = [
       { value: 'decor', label: 'Decor' },
     ],
   },
+  {
+    id: 'notes',
+    text: 'Is there anything else you would like us to know?',
+    type: 'text',
+    optional: true,
+    placeholder: "Anything about your move, your room, or your situation that didn't fit above.",
+  },
 ]
