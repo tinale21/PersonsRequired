@@ -507,3 +507,57 @@
   color: var(--color-muted);
   margin-top: 0.05rem;
 }
+
+/* ---------- Mobile / iPhone pass ---------- */
+@media (max-width: 560px) {
+  .storage {
+    padding: 1.25rem 1rem 3rem;
+  }
+  .storage__search {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.85rem;
+  }
+  .storage__search-input-wrap {
+    flex: 1 1 auto;
+    padding-right: 0;
+  }
+  .storage__search-input {
+    padding: 0.65rem 0;
+    min-height: 44px;
+  }
+  .storage__dates {
+    margin-right: 0;
+    flex-wrap: wrap;
+  }
+  .storage__date {
+    flex: 1 1 45%;
+    min-height: 44px;
+  }
+  .storage__update {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.85rem 1.5rem;
+  }
+  .storage__results-title {
+    font-size: 1.1rem;
+  }
+  .storage__filter-menu {
+    min-width: 0;
+    width: calc(100vw - 2rem);
+    right: 0;
+  }
+  .storage-card__image {
+    height: 170px;
+  }
+  .storage-card__sizes {
+    gap: 0.35rem;
+  }
+  .size-chip {
+    padding: 0.5rem 0.3rem;
+  }
+  .size-chip__price { font-size: 0.9rem; }
+  .size-chip__label { font-size: 0.7rem; }
+  .size-chip__dims { font-size: 0.68rem; }
+}

@@ -1,8 +1,8 @@
 import './TabBar.css'
 
 const TABS = [
-  { id: 'method', label: 'Move Method Finder' },
-  { id: 'storage', label: 'Storage / Shipping Organizer' },
+  { id: 'method', label: 'Move Method Finder', shortLabel: 'Method Finder' },
+  { id: 'storage', label: 'Storage / Shipping Organizer', shortLabel: 'Storage' },
 ]
 
 export default function TabBar({ activeTab, onTabChange }) {
@@ -22,7 +22,8 @@ export default function TabBar({ activeTab, onTabChange }) {
             className={`tab tab--${tab.id} ${isActive ? 'tab--active' : ''}`}
             onClick={() => onTabChange(tab.id)}
           >
-            <span className="tab__label">{tab.label}</span>
+            <span className="tab__label tab__label--long">{tab.label}</span>
+            <span className="tab__label tab__label--short" aria-hidden="true">{tab.shortLabel}</span>
           </button>
         )
       })}

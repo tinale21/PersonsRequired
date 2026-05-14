@@ -145,6 +145,53 @@
   }
 }
 
+@media (max-width: 480px) {
+  .opening {
+    min-height: 100vh;
+    height: auto;
+  }
+  .opening__center {
+    padding: 3rem 1rem;
+  }
+  .opening__airplane {
+    top: 6%;
+    left: 4%;
+    width: clamp(64px, 18vw, 90px);
+  }
+  .opening__seal {
+    top: 7%;
+    right: 4%;
+    width: clamp(62px, 17vw, 90px);
+  }
+  .opening__bulldog {
+    top: auto;
+    bottom: 6%;
+    right: -8%;
+    width: clamp(120px, 36vw, 170px);
+  }
+  .opening__bulldog.is-in {
+    opacity: 0.55;
+  }
+  .opening__tickets {
+    bottom: 10%;
+    width: clamp(180px, 60vw, 240px);
+  }
+  .opening__cta {
+    margin-top: 28px;
+  }
+  .opening__start {
+    padding: 0.95rem 2.4rem;
+    min-height: 44px;
+  }
+  .opening__route {
+    margin-top: 1.25rem;
+  }
+  .opening__subtitle {
+    margin-top: 0.85rem;
+    padding: 0 0.5rem;
+  }
+}
+
 /* ---------- Centered text stack ---------- */
 .opening__center {
   position: absolute;

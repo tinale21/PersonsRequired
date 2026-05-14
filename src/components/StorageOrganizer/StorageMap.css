@@ -18,6 +18,18 @@
   }
 }
 
+@media (max-width: 560px) {
+  .storage-map {
+    aspect-ratio: 4 / 3;
+    max-height: 360px;
+    margin-top: 1rem;
+  }
+  .storage-pin {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.5rem;
+  }
+}
+
 .storage-map__leaflet {
   width: 100%;
   height: 100%;

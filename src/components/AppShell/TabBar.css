@@ -67,6 +67,10 @@
   z-index: 1;
 }
 
+.tab__label--short {
+  display: none;
+}
+
 .tab--active {
   color: var(--color-ink);
   padding-left: 5rem;
@@ -91,5 +95,32 @@
   .tab--active {
     padding-left: 1.8rem;
     padding-right: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabbar {
+    padding: 0 0.4rem;
+  }
+  .tab {
+    padding: 0.85rem 0.9rem;
+    height: 52px;
+    font-size: 0.78rem;
+    letter-spacing: 0;
+  }
+  .tab--method,
+  .tab--storage {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+  .tab--active {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
+  .tab__label--long {
+    display: none;
+  }
+  .tab__label--short {
+    display: inline;
   }
 }
