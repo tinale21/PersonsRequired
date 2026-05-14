@@ -29,10 +29,20 @@ function distanceMi([lat1, lon1], [lat2, lon2]) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
+// Tiny deterministic string hash — used to pick which units are "unavailable"
+// for a given date range. Same dates always produce the same result, so the
+// shuffle feels like a real availability lookup, not random noise.
+function hashCode(str) {
+  let h = 0
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0
+  return h >>> 0
+}
+
 export default function StorageOrganizer() {
   const [query, setQuery] = useState('New Haven, Connecticut')
   const [fromDate, setFromDate] = useState('')
   const [toDate, setToDate] = useState('')
+  const [appliedDates, setAppliedDates] = useState(null)
   const [focusedUnitId, setFocusedUnitId] = useState(null)
   const [sortBy, setSortBy] = useState('price-asc')
   const [filterOpen, setFilterOpen] = useState(false)
@@ -48,11 +58,24 @@ export default function StorageOrganizer() {
     return () => document.removeEventListener('mousedown', onDocClick)
   }, [filterOpen])
 
+  // Mark ~2 of 6 units unavailable for the applied date range — deterministic
+  // per date pair, so the cousin can pick the same dates twice and get the same
+  // answer (feels like a real availability check, not a roll of the dice).
+  const unavailableIds = useMemo(() => {
+    if (!appliedDates) return new Set()
+    const seed = hashCode(`${appliedDates.from}|${appliedDates.to}`)
+    const ranked = storageUnits
+      .map((u) => ({ id: u.id, k: hashCode(`${u.id}|${seed}`) }))
+      .sort((a, b) => a.k - b.k)
+    return new Set(ranked.slice(0, 2).map((o) => o.id))
+  }, [appliedDates])
+
   const sortedUnits = useMemo(() => {
     const withDist = storageUnits.map((u) => ({
       ...u,
       _minPrice: minPrice(u),
       _distance: u.coords ? distanceMi(DORM_COORDS, u.coords) : Infinity,
+      _unavailable: unavailableIds.has(u.id),
     }))
     const sorted = [...withDist]
     switch (sortBy) {
@@ -71,14 +94,21 @@ export default function StorageOrganizer() {
       default:
         break
     }
+    // Always push unavailable units to the bottom of the list, regardless of
+    // the active sort.
+    sorted.sort((a, b) => Number(a._unavailable) - Number(b._unavailable))
     return sorted
-  }, [sortBy])
+  }, [sortBy, unavailableIds])
 
   const activeSort = SORT_OPTIONS.find((o) => o.id === sortBy)
 
   function handleSubmit(e) {
     e.preventDefault()
-    // Visual-only at this stage. Real search not wired up.
+    if (fromDate && toDate) {
+      setAppliedDates({ from: fromDate, to: toDate })
+    } else {
+      setAppliedDates(null)
+    }
   }
 
   // Explicitly open the native calendar picker on label click —
@@ -236,18 +266,22 @@ export default function StorageOrganizer() {
           </p>
 
           <div className="storage__cards-frame">
-          <ul className="storage__cards">
+          <ul
+            className="storage__cards"
+            key={appliedDates ? `${appliedDates.from}-${appliedDates.to}` : 'all'}
+          >
             {sortedUnits.map((unit) => {
               const isFocused = focusedUnitId === unit.id
               return (
                 <li
                   key={unit.id}
-                  className={`storage-card ${isFocused ? 'is-focused' : ''}`}
-                  onMouseEnter={() => setFocusedUnitId(unit.id)}
+                  className={`storage-card ${isFocused ? 'is-focused' : ''} ${unit._unavailable ? 'is-unavailable' : ''}`}
+                  onMouseEnter={() => !unit._unavailable && setFocusedUnitId(unit.id)}
                   onMouseLeave={() => setFocusedUnitId(null)}
-                  onFocus={() => setFocusedUnitId(unit.id)}
+                  onFocus={() => !unit._unavailable && setFocusedUnitId(unit.id)}
                   onBlur={() => setFocusedUnitId(null)}
-                  tabIndex={0}
+                  tabIndex={unit._unavailable ? -1 : 0}
+                  aria-disabled={unit._unavailable || undefined}
                 >
                   <div
                     className="storage-card__image"
@@ -262,6 +296,9 @@ export default function StorageOrganizer() {
                         loading="lazy"
                         onError={(e) => { e.currentTarget.style.display = 'none' }}
                       />
+                    )}
+                    {unit._unavailable && (
+                      <span className="storage-card__badge">Not available</span>
                     )}
                   </div>
                   <div className="storage-card__body">

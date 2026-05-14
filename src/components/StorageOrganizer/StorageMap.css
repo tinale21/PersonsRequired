@@ -102,3 +102,15 @@
   outline: 2px solid var(--color-gold-bright);
   outline-offset: 2px;
 }
+
+.storage-pin.is-unavailable {
+  background: #6f7787;
+  border-color: rgba(255, 255, 255, 0.7);
+  opacity: 0.6;
+}
+
+.storage-pin.is-unavailable:hover {
+  background: #6f7787;
+  color: var(--color-cream);
+  transform: translate(-50%, -100%);
+}

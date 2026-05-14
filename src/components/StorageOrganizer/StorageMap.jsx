@@ -49,8 +49,11 @@ export default function StorageMap({ units, focusedUnitId, onFocus }) {
       const minPrice = Math.min(...unit.sizes.map((s) => s.price))
       const isFocused = unit.id === focusedUnitId
 
+      const cls = ['storage-pin']
+      if (isFocused) cls.push('is-focused')
+      if (unit._unavailable) cls.push('is-unavailable')
       const html = `
-        <button type="button" class="storage-pin ${isFocused ? 'is-focused' : ''}" aria-label="${unit.name} from $${minPrice}">
+        <button type="button" class="${cls.join(' ')}" aria-label="${unit.name} from $${minPrice}${unit._unavailable ? ' (not available)' : ''}">
           $${minPrice}+
         </button>
       `

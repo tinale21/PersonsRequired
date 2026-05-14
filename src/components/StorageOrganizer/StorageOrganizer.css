@@ -350,6 +350,12 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  animation: cardsShuffle 380ms var(--ease-emphatic) both;
+}
+
+@keyframes cardsShuffle {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 560px) {
@@ -390,6 +396,41 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+}
+
+.storage-card__badge {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.55rem;
+  z-index: 2;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-cream);
+  background: rgba(13, 20, 36, 0.82);
+  padding: 0.32rem 0.55rem;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.storage-card.is-unavailable {
+  cursor: default;
+}
+
+.storage-card.is-unavailable .storage-card__photo {
+  filter: grayscale(0.85) brightness(0.85);
+}
+
+.storage-card.is-unavailable .storage-card__body {
+  opacity: 0.55;
+}
+
+.storage-card.is-unavailable:hover,
+.storage-card.is-unavailable.is-focused {
+  transform: none;
+  border-color: var(--color-border);
+  box-shadow: none;
 }
 
 .storage-card__photo {
