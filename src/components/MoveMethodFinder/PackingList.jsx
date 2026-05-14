@@ -11,6 +11,16 @@ const FILTERS = [
 export default function PackingList({ tasks, onChange, onResetQuiz }) {
   const [filter, setFilter] = useState('all')
   const [draft, setDraft] = useState('')
+  const [openCategories, setOpenCategories] = useState(() => new Set())
+
+  function toggleCategory(name) {
+    setOpenCategories((prev) => {
+      const next = new Set(prev)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+  }
 
   const visibleTasks = useMemo(() => {
     if (filter === 'active') return tasks.filter((t) => !t.checked)
@@ -101,9 +111,32 @@ export default function PackingList({ tasks, onChange, onResetQuiz }) {
         </div>
       ) : (
         <div className="plist__grid">
-          {grouped.map((group) => (
-            <section key={group.name} className="plist__group" aria-label={group.name}>
-              <h3 className="plist__group-title">{group.name}</h3>
+          {grouped.map((group) => {
+            const isOpen = openCategories.has(group.name)
+            return (
+            <section key={group.name} className={`plist__group ${isOpen ? 'is-open' : ''}`} aria-label={group.name}>
+              <button
+                type="button"
+                className="plist__group-toggle"
+                onClick={() => toggleCategory(group.name)}
+                aria-expanded={isOpen}
+              >
+                <h3 className="plist__group-title">
+                  {group.name}
+                  <span className="plist__group-count"> ({group.items.length})</span>
+                </h3>
+                <svg className="plist__group-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 9l6 6 6-6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {isOpen && (
               <ul className="plist__items">
                 {group.items.map((t) => (
                   <li key={t.id} className={`plist__row ${t.checked ? 'is-checked' : ''}`}>
@@ -148,8 +181,10 @@ export default function PackingList({ tasks, onChange, onResetQuiz }) {
                   </li>
                 ))}
               </ul>
+              )}
             </section>
-          ))}
+            )
+          })}
         </div>
       )}
 

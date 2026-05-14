@@ -116,17 +116,20 @@
   color: var(--color-muted);
 }
 
-/* Layout — CSS columns packs categories naturally so a short
-   category isn't forced to leave empty space below it to match the
-   height of a tall category in the same row. */
+/* Layout — CSS grid keeps each category in a fixed cell so expanding
+   one (collapsible dropdown) doesn't reflow neighbors out of position.
+   Only the row height grows. */
 .plist__grid {
-  columns: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 2.5rem;
+  row-gap: 1.75rem;
+  align-items: start;
 }
 
 @media (max-width: 720px) {
   .plist__grid {
-    columns: 1;
+    grid-template-columns: 1fr;
   }
   .plist__add {
     flex-direction: row;
@@ -140,14 +143,29 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 1.75rem;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
 }
 
-.plist__group:last-child {
-  margin-bottom: 0;
+.plist__group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.25rem;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 180ms var(--ease-soft);
+}
+
+.plist__group-toggle:hover {
+  background: rgba(26, 36, 56, 0.04);
+}
+
+.plist__group-toggle:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 .plist__group-title {
@@ -155,7 +173,24 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-ink);
-  margin-bottom: 0.25rem;
+  margin: 0;
+}
+
+.plist__group-count {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.plist__group-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--color-ink-soft);
+  flex-shrink: 0;
+  transition: transform 240ms var(--ease-emphatic);
+}
+
+.plist__group.is-open .plist__group-chevron {
+  transform: rotate(180deg);
 }
 
 .plist__items {
