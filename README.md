@@ -7,9 +7,11 @@
 
 ## Design Argument
 
-*The pre-AI document: who the Person is, what the Problem is, what "helped" looks like, the Qualification, and the Non-Negotiables. Student-authored.*
+My project is aimed at a real person, Hannah, my cousin, who is about to finish high school and go to Yale University in the fall. The issue I found is that relocating from Atlanta to New Haven involves not just one task, but a series of overwhelming choices about what to pack, what she still requires, and how to get ready for a new place. Through discussions and online user testing with Hannah, I discovered that the most beneficial approach was not a general college application, but a specific planning tool that could help her feel more organized before the move.
 
-**TBD.**
+This research led to the main feature, the Move Method Finder, which utilizes a quiz to create a personalized packing list instead of making her start from the beginning. The option to modify the list, check off items that are packed, and indicate what she still needs was designed to align with how packing actually occurs over time, rather than all at once.
+
+The second key feature, the Storage Unit Finder, was added because moving out of state can lead to uncertainty about what to do with extra items, seasonal belongings, or things that might not fit in a dorm. This feature assists Hannah in exploring storage options near New Haven and comparing prices, making the tool more relevant for her specific move instead of functioning as a generic checklist. My definition of "helped" is that Hannah should be able to navigate the site and leave with a clearer idea of what she needs to pack, what she still has to acquire, and what storage solutions are available if necessary. The visual design also reinforces the idea because the travel-book style presents this transition as a journey from Atlanta to New Haven, making the experience feel more personal and less stressful. Every significant design choice was influenced by Hannah's circumstances, her feedback, and the aim of alleviating the stress of preparing for an out-of-state college move.
 
 ---
 
