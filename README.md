@@ -23,9 +23,7 @@
 
 ## Platform Rationale
 
-*The chosen delivery format (web app, native app, print, physical artifact, etc.) and why it fits this Person and this Problem better than the alternatives — the connective tissue between the Person's situation, the Problem's shape, and the specific choices made in the prototype. Student-authored.*
-
-**TBD.**
+I chose to build this project as a desktop-focused website because the experience needs enough space to support planning, comparing, and organizing information clearly. Since Hannah Le is preparing for a major out-of-state move, the site needs to handle more complex features. A desktop layout makes sense because she would most likely use this while sitting down to seriously plan her move, compare options, and talk through decisions with family. The storage finder especially benefits from a larger screen because it includes search fields, date filters, storage unit cards, pricing, and a map view all in one place. If this were designed only as a mobile app, those features could feel cramped and harder to compare side by side. A website also makes the tool easier to access without requiring Hannah to download anything during an already busy transition. The platform choice supports the problem because the goal is not quick daily use, but focused planning for a specific life event. This is why a desktop web experience is the right format for helping her organize packing decisions and storage options in one clear place.
 
 ---
 
