@@ -5,6 +5,7 @@ export const storageUnits = [
     address: '400 Derby Avenue, West Haven, CT',
     rating: 4.5,
     accent: '#f5c828',
+    image: `${import.meta.env.BASE_URL}storage/safeguard.jpg`,
     sizes: [
       { label: 'Small', dims: '5×5', price: 25 },
       { label: 'Medium', dims: '10×10', price: 109 },
@@ -18,6 +19,7 @@ export const storageUnits = [
     address: '140 Ferry St, New Haven, CT 06513',
     rating: 4.7,
     accent: '#d35a3f',
+    image: `${import.meta.env.BASE_URL}storage/storquest.jpg`,
     sizes: [
       { label: 'Small', dims: '6×8', price: 63 },
       { label: 'Medium', dims: '7×10', price: 117 },
@@ -31,6 +33,7 @@ export const storageUnits = [
     address: '195 Wells St, West Haven, CT',
     rating: 4.6,
     accent: '#7cb95c',
+    image: `${import.meta.env.BASE_URL}storage/extraspace.jpg`,
     sizes: [
       { label: 'Small', dims: '5×5', price: 32 },
       { label: 'Medium', dims: '10×10', price: 142 },
@@ -44,6 +47,7 @@ export const storageUnits = [
     address: '79 Long Wharf Drive, New Haven, CT',
     rating: 4.4,
     accent: '#3a7cbf',
+    image: `${import.meta.env.BASE_URL}storage/primestorage.jpg`,
     sizes: [
       { label: 'Small', dims: '5×7', price: 45 },
       { label: 'Medium', dims: '8×10', price: 128 },
@@ -57,6 +61,7 @@ export const storageUnits = [
     address: '85 Saw Mill Rd, West Haven, CT',
     rating: 4.5,
     accent: '#b04f95',
+    image: `${import.meta.env.BASE_URL}storage/cubesmart.jpg`,
     sizes: [
       { label: 'Small', dims: '5×5', price: 29 },
       { label: 'Medium', dims: '10×10', price: 134 },
@@ -70,6 +75,7 @@ export const storageUnits = [
     address: '525 State St, New Haven, CT',
     rating: 4.3,
     accent: '#e8893a',
+    image: `${import.meta.env.BASE_URL}storage/public.jpg`,
     sizes: [
       { label: 'Small', dims: '5×5', price: 41 },
       { label: 'Medium', dims: '10×10', price: 156 },
