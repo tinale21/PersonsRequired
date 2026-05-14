@@ -48,27 +48,98 @@ Clicking **Update** with both dates filled triggers a deterministic availability
 
 ## Mermaid Diagram
 
+What receives input, how the system processes it, and what it outputs. Subgraphs group the three runtime surfaces; the right column shows the data sources, external services, and browser persistence that everything reads from / writes to.
+
 ```mermaid
-flowchart TD
-    User((Cousin)) -->|opens site| App[App / AppShell]
-    App --> Tabs{{Tab Nav<br/>folder-tab SVG}}
-    Tabs --> Open[Opening Screen<br/>skyline + decorative reveal]
-    Tabs --> MMF[Move Method Finder]
-    Tabs --> SSO[Storage / Shipping Organizer]
+flowchart TB
+    User((Cousin))
+    User -->|tab clicks · quiz answers · add-item text<br/>dates · sort pick · card hover · map pan/click| Shell
 
-    MMF --> Wiz[Wizard<br/>5 questions + progress]
-    Wiz -->|answers| LS1[(localStorage:<br/>movebook:answers)]
-    Wiz --> PL[PackingList<br/>collapsible categories]
-    PL --> Modal[Category Picker Modal<br/>portal to document.body]
-    PL --> LS2[(localStorage:<br/>movebook:tasks)]
+    %% ============= Shell =============
+    subgraph AppShell[" App / AppShell "]
+        Shell[AppShell<br/>tab state · slide transition]
+        Shell --> Tabs{{Folder-Tab Nav<br/>SVG geometry · smart-animate slide}}
+    end
 
-    SSO --> Search[Search Row<br/>query + From/To dates + Update]
-    Search -->|hash from+to| Avail[Availability Shuffle<br/>deterministic ~2/6 unavailable]
-    SSO --> Cards[Cards Frame<br/>sorted, scrollable, photos]
-    SSO --> Map[StorageMap<br/>Leaflet + OSM]
-    Cards <-->|focusedUnitId| Map
-    Avail --> Cards
-    Avail --> Map
+    Tabs -->|active panel| OS[Opening Screen]
+    Tabs -->|active panel| MM[Move Method Finder]
+    Tabs -->|active panel| ST[Storage / Shipping Organizer]
+
+    %% ============= Opening Screen =============
+    subgraph OSGrp[" Opening Screen "]
+        OS --> OSBg[Skyline backdrop]
+        OS --> OSTitle[Title<br/>Cinzel + Pinyon Script<br/>gold-gradient text fill]
+        OS --> OSDeco[Decorative PNG layer<br/>tickets · seal · bulldog · airplane]
+    end
+
+    %% ============= Move Method Finder =============
+    subgraph MMGrp[" Move Method Finder "]
+        MM --> Wiz[Wizard<br/>useState: questionIndex<br/>progress 0–100%]
+        Wiz --> Questions[5 Questions<br/>Q1 storage need · Q2 room type<br/>Q3 packing style · Q4 timeline<br/>Q5 free-text optional · Skip]
+        Questions -->|onComplete| PL[PackingList<br/>derived from answers]
+        PL --> Cats[Collapsible categories<br/>chevron + count N<br/>two-column flex, non-reflowing]
+        PL --> Add[Add-item flow<br/>type a new item]
+        Add --> Modal[Category Picker Modal<br/>createPortal to document.body<br/>backdrop tints viewport]
+        Modal -->|pick or create category| PL
+    end
+
+    %% ============= Storage / Shipping Organizer =============
+    subgraph STGrp[" Storage / Shipping Organizer "]
+        ST --> Bar[Search Row<br/>location · From · To · Update]
+        Bar --> DP[Date inputs<br/>native input.showPicker]
+        Bar -->|Update click| Hash[hashCode from-to<br/>seed = string hash]
+        Hash --> Avail[unavailableIds Set<br/>2 of 6 deterministic]
+
+        ST --> Grid[Layout grid<br/>height: calc 100vh − 6rem<br/>align-items: stretch]
+        Grid --> Frame[Cards Frame<br/>flex 1 · overflow-y: auto<br/>custom 8px scrollbar]
+        Grid --> Map[StorageMap<br/>Leaflet 1.9.4]
+
+        ST --> Filter[Filter Dropdown<br/>4 sort options]
+        Filter -->|sortBy| Sort[sortedUnits useMemo<br/>price ↑/↓ · rating · distance]
+        Sort --> Dist[Haversine miles<br/>vs Yale Old Campus<br/>41.3081, −72.9298]
+        Sort --> Frame
+        Frame --> Cards[6 Storage Cards]
+        Cards --> Card[Photo · name · address<br/>★ rating · • mi from dorm<br/>3 size chips]
+        Map --> Pins[L.divIcon price pins<br/>$X+ badges]
+
+        Cards <-->|focusedUnitId state| Pins
+        Avail --> Cards
+        Avail --> Pins
+    end
+
+    %% ============= Data & Assets =============
+    subgraph Data[" Data & Assets (in repo) "]
+        StorageJS[(src/data/storageUnits.js<br/>id · coords · sizes · accent · image)]
+        PackJS[(packing categories<br/>+ default items)]
+        Photos[(public/storage/*.jpg<br/>6 facility photos)]
+        OpenAssets[(public/opening/*<br/>skyline · tickets · seal<br/>bulldog · airplane)]
+        TabSVG[(public/tab-shape.svg<br/>folder-tab geometry)]
+    end
+
+    Cards -.image src.-> Photos
+    Cards -.unit record.-> StorageJS
+    Pins -.unit record.-> StorageJS
+    PL -.category schema.-> PackJS
+    OSBg -.-> OpenAssets
+    OSDeco -.-> OpenAssets
+    Tabs -.background-image.-> TabSVG
+
+    %% ============= External services =============
+    subgraph Ext[" External Services "]
+        OSM[(OpenStreetMap<br/>tile.openstreetmap.org<br/>map tile PNGs)]
+    end
+    Map -.tile requests.-> OSM
+    OSM -.PNG tiles.-> Map
+
+    %% ============= Browser persistence =============
+    subgraph Pers[" Browser Persistence "]
+        LSAns[(localStorage<br/>movebook:answers)]
+        LSTasks[(localStorage<br/>movebook:tasks)]
+    end
+    Wiz -.useLocalStorage.-> LSAns
+    LSAns -.rehydrate.-> Wiz
+    PL -.useLocalStorage.-> LSTasks
+    LSTasks -.rehydrate.-> PL
 ```
 
 ---
