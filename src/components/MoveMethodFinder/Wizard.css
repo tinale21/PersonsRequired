@@ -4,8 +4,44 @@
   gap: 3rem;
 }
 
-.wizard__progress {
+.wizard__progress-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   width: 100%;
+}
+
+.wizard__back-arrow {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  color: #000;
+  background: transparent;
+  cursor: pointer;
+  transition: background 200ms var(--ease-soft);
+}
+
+.wizard__back-arrow:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.wizard__back-arrow:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.wizard__back-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.wizard__progress {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 0.9rem;
@@ -61,11 +97,12 @@
 
 .wizard__title {
   font-family: var(--font-body);
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
   font-weight: 700;
   color: var(--color-ink);
   max-width: 38ch;
   line-height: 1.25;
+  margin-top: -32px;
 }
 
 .wizard__options {
@@ -130,8 +167,8 @@
 
 /* Open-response textarea (5th question) */
 .wizard__text-wrap {
-  width: 100%;
-  max-width: 560px;
+  width: 800px;
+  max-width: 100%;
 }
 
 .wizard__textarea {
@@ -140,8 +177,8 @@
   font-size: 1rem;
   line-height: 1.5;
   color: var(--color-ink);
-  background: var(--color-cream-panel);
-  border: 1.5px solid var(--color-border);
+  background: #f9f8f8;
+  border: 1px solid #e0e0e0;
   border-radius: 14px;
   padding: 1rem 1.15rem;
   resize: vertical;
@@ -160,10 +197,23 @@
   box-shadow: 0 0 0 3px rgba(26, 36, 56, 0.08);
 }
 
+/* Choices area now contains only the choices (text or options).
+   Actions live as a separate child of wizard__question so they span
+   the full wizard width (same as the progress bar). */
+.wizard__choices-area {
+  display: inline-flex;
+  flex-direction: column;
+  margin-top: 32px;
+}
+
 .wizard__actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
+  width: 100%;
+  align-self: stretch;
+  margin-top: calc(2.5rem + 40px);
   animation: actionsIn 320ms var(--ease-emphatic) both;
   animation-delay: 80ms;
 }
@@ -182,7 +232,14 @@
   background: transparent;
 }
 
-.wizard__back:hover,
+.wizard__back {
+  color: #000;
+}
+
+.wizard__back:hover {
+  color: #1a1a1a;
+}
+
 .wizard__skip:hover {
   color: var(--color-ink);
 }
@@ -195,17 +252,17 @@
 }
 
 .wizard__next {
-  padding: 0.95rem 2rem;
-  font-size: 1rem;
+  padding: 0.95rem calc(2rem + 8px);
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-cream);
-  background: var(--color-ink);
+  background: #000;
   border-radius: 999px;
   transition: background 200ms var(--ease-soft), transform 160ms var(--ease-soft);
 }
 
 .wizard__next:hover {
-  background: var(--color-navy);
+  background: #1a1a1a;
 }
 
 .wizard__next:active {
