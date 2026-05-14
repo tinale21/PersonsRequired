@@ -10,7 +10,7 @@ export const storageUnits = [
       { label: 'Medium', dims: '10×10', price: 109 },
       { label: 'Large', dims: '10×20', price: 265 },
     ],
-    pin: { left: '20%', top: '70%' },
+    coords: [41.272, -72.967],
   },
   {
     id: 'storquest',
@@ -23,7 +23,7 @@ export const storageUnits = [
       { label: 'Medium', dims: '7×10', price: 117 },
       { label: 'Large', dims: '10×20', price: 209 },
     ],
-    pin: { left: '64%', top: '60%' },
+    coords: [41.301, -72.910],
   },
   {
     id: 'extraspace',
@@ -36,7 +36,7 @@ export const storageUnits = [
       { label: 'Medium', dims: '10×10', price: 142 },
       { label: 'Large', dims: '10×15', price: 240 },
     ],
-    pin: { left: '12%', top: '50%' },
+    coords: [41.276, -72.961],
   },
   {
     id: 'primestorage',
@@ -49,7 +49,7 @@ export const storageUnits = [
       { label: 'Medium', dims: '8×10', price: 128 },
       { label: 'Large', dims: '10×20', price: 275 },
     ],
-    pin: { left: '54%', top: '78%' },
+    coords: [41.293, -72.917],
   },
   {
     id: 'cubesmart',
@@ -62,7 +62,7 @@ export const storageUnits = [
       { label: 'Medium', dims: '10×10', price: 134 },
       { label: 'Large', dims: '10×20', price: 258 },
     ],
-    pin: { left: '8%', top: '32%' },
+    coords: [41.288, -72.964],
   },
   {
     id: 'public',
@@ -75,6 +75,6 @@ export const storageUnits = [
       { label: 'Medium', dims: '10×10', price: 156 },
       { label: 'Large', dims: '10×20', price: 295 },
     ],
-    pin: { left: '70%', top: '40%' },
+    coords: [41.317, -72.916],
   },
 ]
