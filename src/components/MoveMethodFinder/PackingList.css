@@ -116,20 +116,26 @@
   color: var(--color-muted);
 }
 
-/* Layout — CSS grid keeps each category in a fixed cell so expanding
-   one (collapsible dropdown) doesn't reflow neighbors out of position.
-   Only the row height grows. */
+/* Layout — two independent column stacks. Each column is its own
+   flex container, so expanding a category in one column doesn't push
+   anything in the other column. */
 .plist__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   column-gap: 2.5rem;
-  row-gap: 1.75rem;
-  align-items: start;
+}
+
+.plist__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
 }
 
 @media (max-width: 720px) {
   .plist__grid {
     grid-template-columns: 1fr;
+    row-gap: 1.75rem;
   }
   .plist__add {
     flex-direction: row;
@@ -332,4 +338,167 @@
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Category picker modal */
+.plist__modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 20, 36, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9999;
+  animation: modalBackdropIn 200ms var(--ease-soft) both;
+}
+
+@keyframes modalBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.plist__modal {
+  background: #f9f8f8;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 32px -8px rgba(13, 20, 36, 0.35);
+  animation: modalIn 240ms var(--ease-emphatic) both;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.plist__modal-title {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 1rem;
+  line-height: 1.35;
+}
+
+.plist__modal-item {
+  font-weight: 700;
+}
+
+.plist__modal-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+@media (max-width: 480px) {
+  .plist__modal-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.plist__modal-option {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  transition: background 180ms var(--ease-soft), border-color 180ms var(--ease-soft);
+}
+
+.plist__modal-option:hover {
+  background: #f0f0f0;
+  border-color: #c4c4c4;
+}
+
+.plist__modal-option:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.plist__modal-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  margin: 0.5rem 0 0.9rem;
+}
+
+.plist__modal-divider::before,
+.plist__modal-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-divider);
+}
+
+.plist__modal-new {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.plist__modal-input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  transition: border-color 200ms var(--ease-soft);
+}
+
+.plist__modal-input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+}
+
+.plist__modal-input::placeholder {
+  color: var(--color-muted);
+}
+
+.plist__modal-create {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-cream);
+  background: #000;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  transition: background 180ms var(--ease-soft);
+}
+
+.plist__modal-create:hover:not(:disabled) {
+  background: #1a1a1a;
+}
+
+.plist__modal-create:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.plist__modal-cancel {
+  display: block;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  padding: 0.4rem 0.8rem;
+}
+
+.plist__modal-cancel:hover {
+  color: var(--color-ink);
 }

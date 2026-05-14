@@ -97,12 +97,12 @@ export function generateTasks(answers) {
   return tasks
 }
 
-export function makeCustomTask(label) {
+export function makeCustomTask(label, categoryName = 'Other', categoryId = 'custom') {
   return {
     id: `custom-${Date.now()}-${nextId++}`,
     label,
-    categoryId: 'custom',
-    categoryName: 'Other',
+    categoryId,
+    categoryName,
     checked: false,
     custom: true,
   }
